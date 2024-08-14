@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
-import {UserService} from 'src/app/user.service';
+import { Component } from '@angular/core';
+import { UserService } from 'src/app/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -8,8 +9,17 @@ import {UserService} from 'src/app/user.service';
 })
 export class UserListComponent {
 
-  constructor(protected userService: UserService) {
+  constructor(protected userService: UserService, private router: Router) { }
+
+  editUser(userId: number): void {
+    this.router.navigate(['/edit', userId]);
   }
 
-
+  deleteUser(userId: number): void {
+    if (confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')) {
+      this.userService.deleteUser(userId);
+    }
+  }
 }
+
+

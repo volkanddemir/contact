@@ -8,6 +8,7 @@
           <th>Surname</th>
           <th>Email</th>
           <th>Phone Number</th>
+          <th>Actions</th> <!-- Yeni eklenen sütun -->
         </tr>
       </ng-template>
       <ng-template let-user pTemplate="body">
@@ -16,14 +17,21 @@
           <td>{{ user.surname }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.phoneNumber }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"
+                    (click)="editUser(user.id)"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-rounded p-button-text p-button-danger"
+                    (click)="deleteUser(user.id)"></button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
 
     <!-- Kayıt Ekleme Sayfasına Bağlantı -->
     <div class="text-center mt-5">
-      <a routerLink="/register">Yeni kayit oluştur</a>
+      <a routerLink="/register">Yeni kayıt oluştur</a>
     </div>
   </div>
 </div>
+
 

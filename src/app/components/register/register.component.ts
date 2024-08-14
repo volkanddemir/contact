@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {UserService} from 'src/app/user.service';
+
 
 @Component({
   selector: 'app-register',
@@ -9,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent {
   registerForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router, private userService: UserService, private readonly cdRef: ChangeDetectorRef) { // Servisi enjekte edin
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
@@ -18,13 +21,6 @@ export class RegisterComponent {
     });
   }
 
-  onSubmit() {
-    if (this.registerForm.valid) {
-      console.log('Form Submitted', this.registerForm.value);
-    }
-  }
-
-  // Form kontrollerine getter metodları ile erişim sağlıyoruz
   get name() {
     return this.registerForm.get('name');
   }
@@ -39,5 +35,15 @@ export class RegisterComponent {
 
   get phoneNumber() {
     return this.registerForm.get('phoneNumber');
+  }
+
+  onSubmit() {
+    console.log(this.registerForm.valid);
+    if (!this.registerForm.valid) return;
+
+    this.userService.addUser(this.registerForm.value);
+    this.cdRef.detectChanges();
+    this.router.navigate(['/user-list']);
+
   }
 }

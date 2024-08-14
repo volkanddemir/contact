@@ -2,24 +2,22 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckboxModule } from 'primeng/checkbox';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
-import { RegisterComponent } from './components/register/register.component';
-import { ListeComponent } from './components/liste/liste.component';
 import { RippleModule } from 'primeng/ripple';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { TableModule } from 'primeng/table';
+import { RouterModule, Routes } from '@angular/router';
+import { RegisterComponent } from './components/register/register.component';
+import { UserListComponent } from './components/user-list/user-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    ListeComponent,
-
-
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +28,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CheckboxModule,
     InputTextModule,
     RippleModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

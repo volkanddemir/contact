@@ -1,0 +1,23 @@
+<div class="user-list-container">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-12">
+    <h2 class="text-center mb-4">Registered Users</h2>
+    <p-table [rowsPerPageOptions]="[5,10,25]" [value]="userService.users" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+        </tr>
+      </ng-template>
+      <ng-template let-user pTemplate="body">
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.surname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

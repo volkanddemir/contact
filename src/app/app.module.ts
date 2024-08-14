@@ -10,7 +10,7 @@ import { ButtonModule } from 'primeng/button';
 import { RegisterComponent } from './components/register/register.component';
 import { ListeComponent } from './components/liste/liste.component';
 import { RippleModule } from 'primeng/ripple';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import { RippleModule } from 'primeng/ripple';
     FormsModule,
     CheckboxModule,
     InputTextModule,
-    RippleModule
+    RippleModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

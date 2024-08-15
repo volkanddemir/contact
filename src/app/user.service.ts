@@ -1,22 +1,30 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {v4} from 'uuid';
+
+export class User {
+  id: string;
+  surname: string;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  users: any[] = [];
+  users: User[] = [];
   private storageKey = 'users';
 
   constructor() {
     this.users = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
   }
 
-  addUser(user: any): void {
+  addUser(user: User): void {
+    user.id = v4();
     this.users.push(user);
     this.saveUsers();
   }
 
-  deleteUser(userId: number): void {
+  deleteUser(userId: string): void {
     this.users = this.users.filter(user => user.id !== userId);
     this.saveUsers();
   }
@@ -33,4 +41,3 @@ export class UserService {
     localStorage.setItem(this.storageKey, JSON.stringify(this.users));
   }
 }
-

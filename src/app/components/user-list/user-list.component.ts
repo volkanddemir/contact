@@ -15,7 +15,7 @@ export class UserListComponent {
     this.router.navigate(['/edit', userId]);
   }
 
-  deleteUser(userId: number): void {
+  deleteUser(userId: string): void {
     if (confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')) {
       this.userService.deleteUser(userId);
     }

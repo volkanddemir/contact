@@ -5,14 +5,13 @@ import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   { path: 'user-list', component: UserListComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: '', redirectTo: '/register', pathMatch: 'full' } // varsayılan rota
+  { path: 'register', component: RegisterComponent },  // Yeni kullanıcı ekleme rotası
+  { path: 'register/:userId', component: RegisterComponent },  // Kullanıcı düzenleme rotası (userId parametresi ile)
+  { path: '', redirectTo: '/register', pathMatch: 'full' } // Varsayılan rota
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [
-    RouterModule
-  ]
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -11,15 +11,17 @@ export class UserListComponent {
 
   constructor(protected userService: UserService, private router: Router) { }
 
-  editUser(userId: number): void {
-    this.router.navigate(['/edit', userId]);
+  // Düzenleme işlemi
+  editUser(userId: string): void {
+    // ID'yi router'a gönder ve register sayfasına yönlendir
+    this.router.navigate(['/register', userId]);
   }
 
+  // Kullanıcı silme işlemi
   deleteUser(userId: string): void {
     if (confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')) {
       this.userService.deleteUser(userId);
     }
   }
 }
-
 

@@ -20,7 +20,7 @@ users: any[];
   }
   // Yeni kullanıcı ekle
   addUser(user: User): Observable<User> {
-    user.id = uuidv4(); // Benzersiz ID oluştur
+    user.guid = uuidv4(); // Benzersiz ID oluştur
     return this.http.post<User>(this.url, user);
   }
 

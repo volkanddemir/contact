@@ -12,13 +12,14 @@ import { TableModule } from 'primeng/table';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
-    UserListComponent
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +32,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
     RippleModule,
     ReactiveFormsModule,
     TableModule,
-    RouterModule
+    RouterModule,
+    HttpClientModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,79 +1,46 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';  // ActivatedRoute eklendi
-import {UserService} from 'src/app/user.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ApiService } from 'src/app/api.service';
+import { User } from 'src/app/models/user';
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {  // OnInit implementasyonu eklendi
-  registerForm: FormGroup;
-  editMode = false;
-  selectedUser: any;
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private userService: UserService,
-    private readonly cdRef: ChangeDetectorRef,
-    private route: ActivatedRoute  // ActivatedRoute eklendi
-  ) {
-    this.registerForm = this.fb.group({
-      name: ['', Validators.required],
-      surname: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required]
-    });
-  }
+    private apiService: ApiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // URL'den 'userId' parametresini al ve formu doldur
-    this.route.paramMap.subscribe(params => {
-      const userId = params.get('userId');
-      if (userId) {
-        this.loadUserToForm(userId);  // Kullanıcı bilgilerini formda göster
-      }
+    this.registerForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      surname: ['', [Validators.required, Validators.minLength(2)]],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]]
     });
   }
 
-  // Formdaki inputlara ulaşmak için get fonksiyonları
-  get name() {
-    return this.registerForm.get('name');
-  }
+  onSubmit(): void {
+    if (this.registerForm.valid) {
+      const newUser: User = this.registerForm.value;
 
-  get surname() {
-    return this.registerForm.get('surname');
-  }
-
-  get email() {
-    return this.registerForm.get('email');
-  }
-
-  get phoneNumber() {
-    return this.registerForm.get('phoneNumber');
-  }
-
-  // Düzenleme modu için kullanıcı seçimi
-  loadUserToForm(userId: string) {
-    const user = this.userService.getUserById(userId);
-    if (user) {
-      this.editMode = true;
-      this.selectedUser = user;
-      this.registerForm.patchValue(user); // Formu mevcut kullanıcı bilgileriyle doldur
+      this.apiService.addUser(newUser).subscribe({
+        next: (user) => {
+          console.log('Kullanıcı başarıyla eklendi:', user);
+          this.router.navigate(['/user-list']);
+        },
+        error: (err) => {
+          console.error('Kullanıcı eklenirken bir hata oluştu:', err);
+        }
+      });
     }
-  }
-
-  onSubmit() {
-    if (!this.registerForm.valid) return;
-
-    if (this.editMode) {
-      this.userService.updateUser({ ...this.registerForm.value, id: this.selectedUser.id });
-      this.editMode = false;
-    } else {
-      this.userService.addUser(this.registerForm.value);
-    }
-    this.router.navigate(['/user-list']);
   }
 }

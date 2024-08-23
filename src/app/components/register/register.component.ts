@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/models/user';
 
@@ -12,21 +12,44 @@ import { User } from 'src/app/models/user';
 })
 export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
+  selectedUser: any;
+  editMode: boolean;
+  user: User;
+  userId?: string;
 
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.route.params.subscribe(result => {
+      this.userId = result['userId'];
+      console.log(result);
+      if(this.userId) {
+        this.apiService.getUserById(this.userId).subscribe()
+      }
+    })
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]]
+      phoneNumber: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]]
     });
   }
+                
+    // Düzenleme modu için kullanıcı seçimi
+  loadUserToForm(userId: string) {
+    this.apiService.getUserById(userId).subscribe((result: User) => this.user = result);
+    if (this.user) {
+      this.editMode = true;
+      this.selectedUser = this.user;
+      this.registerForm.patchValue(this.user); // Formu mevcut kullanıcı bilgileriyle doldur
+    }
+  }
+
 
   onSubmit(): void {
     if (this.registerForm.valid) {

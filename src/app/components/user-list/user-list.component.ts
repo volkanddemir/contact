@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/api.service';
 import { User } from 'src/app/models/user';
 
@@ -29,8 +29,9 @@ export class UserListComponent implements OnInit {
   }
 
   editUser(userId: string): void {
+    console.log(userId)
     // Kullanıcıyı düzenleme sayfasına yönlendirin
-    this.router.navigate(['/register'], { queryParams: { id: userId } });
+    this.router.navigate(['/register', userId]);
   }
 
   deleteUser(userId: string): void {

@@ -29,9 +29,20 @@ export class RegisterComponent implements OnInit {
       this.userId = result['userId'];
       console.log(result);
       if(this.userId) {
-        this.apiService.getUserById(this.userId).subscribe()
+        this.apiService.getUserById(this.userId).subscribe((user: User) => {
+          console.log(user)
+          this.registerForm.patchValue({
+
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            phoneNumber: user.phoneNumber
+        })}
+      
+          )
       }
     })
+
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       surname: ['', [Validators.required, Validators.minLength(2)]],
